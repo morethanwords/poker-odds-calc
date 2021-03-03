@@ -23,11 +23,11 @@ class ResultPlayer {
   }
 
   getWinsPercentage(): number {
-    return this.getWins() === 0 ? 0 : toPercent(this.getWins() / this.table.getIterations());
+    return this.getWins() === 0 ? 0 : this.getWins() / this.table.getIterations();
   }
 
   getWinsPercentageString(): string {
-    return `${this.table.isApproximate() ? "~" : ""}${this.getWinsPercentage().toFixed(2)}%`;
+    return `${this.table.isApproximate() ? "~" : ""}${toPercent(this.getWinsPercentage()).toFixed(2)}%`;
   }
 
   getTies() {
@@ -35,11 +35,11 @@ class ResultPlayer {
   }
 
   getTiesPercentage(): number {
-    return this.getTies() === 0 ? 0 : toPercent(this.getTies() / this.table.getIterations());
+    return this.getTies() === 0 ? 0 : this.getTies() / this.table.getIterations();
   }
 
   getTiesPercentageString(): string {
-    return `${this.table.isApproximate() ? "~" : ""}${this.getTiesPercentage().toFixed(2)}%`;
+    return `${this.table.isApproximate() ? "~" : ""}${toPercent(this.getTiesPercentage()).toFixed(2)}%`;
   }
 
   getPlayer() {
@@ -111,6 +111,12 @@ export default class Result {
 
   getIterations() {
     return this.result.iterations;
+  }
+
+  getEquities() {
+    return this.getPlayers().map(player => {
+      return player.getWinsPercentage() + player.getTiesPercentage() / 2;
+    });
   }
 
   getTime() {
